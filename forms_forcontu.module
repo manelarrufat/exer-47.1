@@ -260,6 +260,19 @@ function forms_forcontu_form3($form_state) {
     '#size' => 15,
     '#required' => TRUE,
   );
+  //añadimos el campo de selección roles
+  $roles = user_roles();
+  //dpm($roles);
+  for ($i=1; $i <= count($roles); $i++) { 
+    $roles_list[$roles[$i]] = $roles[$i];
+  }
+  //dpm($roles_list);
+  $form['tabs']['datos_acceso']['roles'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Roles'),
+    '#options' => $roles_list,
+    '#description' => t('Select rol or roles.'),
+  );
   // Envío de formulario
   $form['submit'] = array(
     '#type' => 'submit',
@@ -270,9 +283,21 @@ function forms_forcontu_form3($form_state) {
 }
 
 /**
-* Función de envío del formulario forms_forcontu_form2
+* Función de envío del formulario forms_forcontu_form3
 */
 function forms_forcontu_form3_submit($form, &$form_state) {
   drupal_set_message(t('<strong>Su cuenta de usuario ha sido creada correctamente en form3.</strong>'));
   drupal_goto("");
+}
+
+/**
+* Función de validación del formulario forms_forcontu_form3
+*/
+function forms_forcontu_form3_validate($form, &$form_state){
+  if (!valid_email_address($form_state['values']['correo_electronico'])) {
+    form_set_error('correo_electronico', t('You must enter a valid e-mail address.'));
+  }
+  if (preg_match("/\A[^aeiouAEIOU]/", $form_state['values']['pais'][0]) == 1) {
+    form_set_error('pais', t('The selected country must begin with a vowel.'));
+  }
 }
