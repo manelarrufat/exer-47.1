@@ -25,6 +25,14 @@ function forms_forcontu_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  $items['forms_forcontu/form3'] = array(
+    'title' => 'Formulario personalizado',
+    'description' => 'Formulario personalizado',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('forms_forcontu_form3'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
@@ -168,5 +176,103 @@ function forms_forcontu_form2($form_state) {
 */
 function forms_forcontu_form2_submit($form, &$form_state) {
   drupal_set_message(t('<strong>Su cuenta de usuario ha sido creada correctamente.</strong>'));
+  drupal_goto("");
+}
+
+/**
+* Page callback
+* Función que se invocará al cargar la página www.example.com/forms_forcontu/form3
+*/
+function forms_forcontu_form3($form_state) {
+  // Contenedor para pestañas verticales
+  $form['tabs'] = array(
+    '#type' => 'vertical_tabs',
+  );
+  //Grupo de elementos datos personales
+  $form['tabs']['datos_personales'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Datos personales'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE, 
+  );
+  $form['tabs']['datos_personales']['nombre'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Nombre'),
+    '#required' => TRUE,
+    '#description' => "Escriba su nombre",
+    '#size' => 20,
+    '#maxlength' => 20,
+  );
+  $form['tabs']['datos_personales']['apellidos'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Apellidos'),
+    '#required' => TRUE,
+    '#description' => "Escriba sus apellidos",
+    '#size' => 40,
+    '#maxlength' => 40,
+  );
+  $form['tabs']['datos_personales']['correo_electronico'] = array(
+    '#type' => 'textfield',
+    '#title' => t('E-mail'),
+    '#description' => 'Escriba su correo electrónico',
+    '#size' => 30,
+    '#maxlength' => 30,
+  );
+  $form['tabs']['datos_personales']['direccion'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Dirección'),
+    '#description' => 'Escriba su dirección',
+    '#cols' => 60,
+    '#rows' => 4,
+  );
+  $form['tabs']['datos_personales']['pais'] = array(
+    '#type' => 'select',
+    '#title' => t('País'),
+    '#default_value' => 'españa',
+    '#options' => array(
+      'alemania' => 'Alemania',
+      'españa' => 'España',
+      'francia' => 'Francia',
+      'italia' => 'Italia',
+    ),
+    '#description' => 'Seleccione un país',
+  );
+  //Grupo de datos de acceso
+  $form['tabs']['datos_acceso'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Datos de acceso'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE, 
+  );
+  $form['tabs']['datos_acceso']['usuario'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Usuario'),
+    '#required' => TRUE,
+    '#default_value' => "Nombre de usuario",
+    '#description' => "Escriba su nombre de usuario",
+    '#size' => 20,
+    '#maxlength' => 20,
+  );
+  $form['tabs']['datos_acceso']['contrasena'] = array(
+    '#type' => 'password_confirm',
+    '#title' => t('Password'),
+    '#description' => 'Escriba la palabra de paso',
+    '#size' => 15,
+    '#required' => TRUE,
+  );
+  // Envío de formulario
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Enviar',
+  );
+
+  return $form;
+}
+
+/**
+* Función de envío del formulario forms_forcontu_form2
+*/
+function forms_forcontu_form3_submit($form, &$form_state) {
+  drupal_set_message(t('<strong>Su cuenta de usuario ha sido creada correctamente en form3.</strong>'));
   drupal_goto("");
 }
