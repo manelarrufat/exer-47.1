@@ -2,4 +2,5 @@ name = Forms Forcontu
 description = Module to test forms
 core = 7.x
 files[] = forms_forcontu.module
+files[] = forms_forcontu.install
 package = My modules

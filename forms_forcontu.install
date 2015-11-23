@@ -1,0 +1,84 @@
+<?php
+/**
+* @file
+* Módulo para probar bases de datos
+* Este módulo crea dos tablas en el proceso de intalación y se borran al desinstalar.
+*/
+
+/**
+ * Implements hook_install().
+ */
+function forms_forcontu_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function forms_forcontu_uninstall() {
+}
+
+/**
+ * Implements hook_schema().
+ */
+function forms_forcontu_schema() {
+  $schema['forms_forcontu'] = array(
+    'description' => 'Stores table forms_forcontu',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Campo entero autoincremental para identificar el envío',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'ID del usuario que realiza el envío',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
+      'nombre' => array(
+        'description' => 'Nombre del autor del envío',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+      'apellidos' => array(
+        'description' => 'Apellidos del autor del envío',
+        'type' => 'varchar',
+        'length' => 40,
+        'not null' => TRUE,
+      ),
+      'correo_electronico' => array(
+        'description' => 'Correo electrónico del autor del envío',
+        'type' => 'varchar',
+        'length' => 30,
+      ),
+      'direccion' => array(
+        'description' => 'Dirección del autor del envío',
+        'type' => 'text',
+        'length' => 255,
+      ),
+      'pais' => array(
+        'description' => 'País del autor del envío',
+        'type' => 'varchar',
+        'length' => 30,
+      ),
+      'usuario' => array(
+        'description' => 'Nombre de usuario del autor del envío',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+      'contrasena' => array(
+        'description' => 'Contraseña del usuario del envío',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'creado' => array(
+        'description' => 'Fecha y hora de creación del envío',
+        'type' => 'int',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}

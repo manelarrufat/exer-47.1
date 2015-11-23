@@ -286,14 +286,28 @@ function forms_forcontu_form3($form_state) {
 * Función de envío del formulario forms_forcontu_form3
 */
 function forms_forcontu_form3_submit($form, &$form_state) {
-  drupal_set_message(t('<strong>Su cuenta de usuario ha sido creada correctamente en form3.</strong>'));
+  global $user;
+  $result = db_insert('forms_forcontu')
+                ->fields(array(
+                  'uid' => $user->uid,
+                  'nombre' => $form_state['values']['nombre'],
+                  'apellidos' => $form_state['values']['apellidos'],
+                  'correo_electronico' => $form_state['values']['correo_electronico'],
+                  'direccion' => $form_state['values']['direccion'],
+                  'pais' => $form_state['values']['pais'],
+                  'usuario' => $form_state['values']['usuario'],
+                  'contrasena' => md5($form_state['values']['contrasena']),
+                  'creado' => time(),
+                ))
+                ->execute();
+  drupal_set_message(t('<strong>La información creada en form3 ha sido guardada correctamente.</strong>'));
   drupal_goto("");
 }
 
 /**
 * Función de validación del formulario forms_forcontu_form3
 */
-function forms_forcontu_form3_validate($form, &$form_state){
+function forms_forcontu_form3_validate($form, &$form_state) {
   //validamos correo electrónico
   if (!valid_email_address($form_state['values']['correo_electronico'])) {
     form_set_error('correo_electronico', t('You must enter a valid e-mail address.'));
