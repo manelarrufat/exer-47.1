@@ -33,7 +33,20 @@ function forms_forcontu_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
-
+  $items['destino/spain'] = array(
+    'title' => 'Página destino Spain',
+    'description' => 'Página destino Spain actividad 47.7',
+    'page callback' => 'landing_page_spain',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['destino/otros'] = array(
+    'title' => 'Página destino otros',
+    'description' => 'Página destino otros actividad 47.7',
+    'page callback' => 'landing_page_other',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -301,7 +314,11 @@ function forms_forcontu_form3_submit($form, &$form_state) {
                 ))
                 ->execute();
   drupal_set_message(t('<strong>La información creada en form3 ha sido guardada correctamente.</strong>'));
-  drupal_goto("");
+  if ($form_state['values']['pais'] == 'españa') {
+    drupal_goto("destino/spain");
+  } else {
+    drupal_goto("destino/otros");
+  }
 }
 
 /**
@@ -324,4 +341,20 @@ function forms_forcontu_form3_validate($form, &$form_state) {
   if (!preg_match("/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/", $form_state['values']['contrasena']) ) {
     form_set_error('contrasena', t('La contraseña debe tener entre 5 y 10 caracteres y se tiene que componer al menos de una letra en mayúsculas, una letra en minúsculas, un número y un carácter no alfanumérico.'));
   }
+}
+
+/**
+* Función de redirección a destino/spain
+*/
+function landing_page_spain() {
+  $output = t('Landing page Spain country');
+  return $output;
+}
+
+/**
+* Función de redirección a destino/otros
+*/
+function landing_page_other() {
+  $output = t('Landing page other countries');
+  return $output;
 }
