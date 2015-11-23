@@ -294,10 +294,20 @@ function forms_forcontu_form3_submit($form, &$form_state) {
 * Función de validación del formulario forms_forcontu_form3
 */
 function forms_forcontu_form3_validate($form, &$form_state){
+  //validamos correo electrónico
   if (!valid_email_address($form_state['values']['correo_electronico'])) {
     form_set_error('correo_electronico', t('You must enter a valid e-mail address.'));
   }
-  if (preg_match("/\A[^aeiouAEIOU]/", $form_state['values']['pais'][0]) == 1) {
+  //validamos pais empieza por vocal
+  if (preg_match("/[^aeiouAEIOU]/", $form_state['values']['pais'][0]) ) {
     form_set_error('pais', t('The selected country must begin with a vowel.'));
+  }
+  //validamos password
+  if (!preg_match("/\D{1}[a-zA-Z0-9]{5,14}$/", $form_state['values']['usuario']) ) {
+    form_set_error('usuario', t('The user name can only contain letters and numbers and can not begin to number. Minimun 6 and maximum 15 characters.'));
+  }
+  //validamos contraseña
+  if (!preg_match("/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/", $form_state['values']['contrasena']) ) {
+    form_set_error('contrasena', t('La contraseña debe tener entre 5 y 10 caracteres y se tiene que componer al menos de una letra en mayúsculas, una letra en minúsculas, un número y un carácter no alfanumérico.'));
   }
 }
